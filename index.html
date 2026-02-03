@@ -36,8 +36,8 @@ input,select{width:80px;text-align:center}
 .titulo-contorno{
     font-size:38px;
     font-weight:900;
-    color:blue;
-    -webkit-text-stroke:2px white;
+    color: blue;
+    -webkit-text-stroke:2px black;
     text-align:center;
 }
 
@@ -60,7 +60,7 @@ transition:transform .2s;
 body{padding:10px}
 .header-titulo{flex-direction:column}
 .header-titulo img{height:65px}
-.titulo-contorno{font-size:26px;-webkit-text-stroke:1.5px black}
+.titulo-contorno{font-size:26px;-webkit-text-stroke:2px white}
 table{display:block;overflow-x:auto;white-space:nowrap}
 }
 </style>
@@ -319,4 +319,5 @@ XLSX.writeFile(wb,titulo.replace(/ /g,"_")+".xlsx"); }
 
 </body>
 </html>
+
 
