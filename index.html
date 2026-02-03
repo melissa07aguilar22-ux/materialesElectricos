@@ -36,8 +36,8 @@ input,select{width:80px;text-align:center}
 .titulo-contorno{
     font-size:38px;
     font-weight:900;
-    color:white;
-    -webkit-text-stroke:2px black;
+    color:blue;
+    -webkit-text-stroke:2px white;
     text-align:center;
 }
 
@@ -70,10 +70,10 @@ table{display:block;overflow-x:auto;white-space:nowrap}
 
 <div class="header-titulo">
     <img src="logo.jpg">
-    <h2 class="titulo-contorno">LISTA DE MATERIALES ELÉCTRICOS</h2>
+    <h1 class="titulo-contorno">LISTA DE MATERIALES ELÉCTRICOS</h1>
 </div>
 
-<label><h1><b>TÍTULO DEL DOCUMENTO</b></h1></label><br> <input type="text" id="tituloDoc" placeholder="Ej: LOURDES PLAZA EL CAPULÍN" style="width:350px;height:25px"><br>
+<label><h2><b>TÍTULO DEL DOCUMENTO</b></h2></label><br> <input type="text" id="tituloDoc" placeholder="Ej: LOURDES PLAZA EL CAPULÍN" style="width:350px;height:25px"><br>
 
 <table>
 <thead>
@@ -319,3 +319,4 @@ XLSX.writeFile(wb,titulo.replace(/ /g,"_")+".xlsx"); }
 
 </body>
 </html>
+
