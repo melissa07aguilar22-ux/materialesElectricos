@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Materiales Eléctricos</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<style>
+body{font-family:Arial;padding:20px; background:#def6ff}
+table{width:100%;border-collapse:collapse;margin-top:15px}
+th,td{border:1px solid #000;padding:6px;font-size:13px}
+th{background:#0d4c63;color:#fff}
+input,select{width:80px;text-align:center}
+.centro{text-align:center}
+.btn-danger{background:#b30000;color:#fff;padding:5px}
+.btn-edit{background:#d18b00;color:#fff;padding:5px}
+
+/* ===== FILA CON CANTIDAD (GLOBAL) ===== */
+.fila-activa td{
+    background-color:#f3ff83 !important;
+}
+
+/* ===== TÍTULO ===== */
+.header-titulo{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:20px;
+    margin-bottom:15px;
+}
+.header-titulo img{height:80px}
+.titulo-contorno{
+    font-size:38px;
+    font-weight:900;
+    color:white;
+    -webkit-text-stroke:2px black;
+    text-align:center;
+}
+
+.iconos{
+display:flex;
+gap:15px;
+align-items:center;
+margin:20px 0;
+flex-wrap:wrap;
+}
+.icon-btn{
+width:60px;
+cursor:pointer;
+transition:transform .2s;
+}
+.icon-btn:hover{transform:scale(1.1)}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width:768px){
+body{padding:10px}
+.header-titulo{flex-direction:column}
+.header-titulo img{height:65px}
+.titulo-contorno{font-size:26px;-webkit-text-stroke:1.5px black}
+table{display:block;overflow-x:auto;white-space:nowrap}
+}
+</style>
+</head>
+
+<body>
+
+<div class="header-titulo">
+    <img src="logo.jpg">
+    <h2 class="titulo-contorno">LISTA DE MATERIALES ELÉCTRICOS</h2>
+</div>
+
+<label><h1><b>TÍTULO DEL DOCUMENTO</b></h1></label><br> <input type="text" id="tituloDoc" placeholder="Ej: LOURDES PLAZA EL CAPULÍN" style="width:350px;height:25px"><br>
+
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>DESCRIPCIÓN</th>
+<th>UNIDAD</th>
+<th>CANTIDAD</th>
+</tr>
+</thead>
+<tbody id="materiales"></tbody>
+</table>
+
+<div class="iconos">
+<img src="generar.png" class="icon-btn" onclick="generarTabla()">
+<img src="pdf.png" class="icon-btn" onclick="exportarPDF()">
+<img src="excel.jpg" class="icon-btn" onclick="exportarExcel()">
+</div>
+
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>DESCRIPCIÓN</th>
+<th>UNIDAD</th>
+<th>CANTIDAD</th>
+<th>ACCIONES</th>
+</tr>
+</thead>
+<tbody id="resultado"></tbody>
+</table>
+
+<script>
+const listaMateriales = [
+  "ABRAZADERA COMPLETA 5-7 (6-6) RE",
+  "ABRAZADERA COMPLETA 6 - 6 5/8 PULG.",
+  "ABRAZADERA COMPLETA 7 - 7 5/8 PULG.",
+  "ABRAZADERA COMPLETA 8 - 8 5/8 PULG.",
+  "ABRAZADERA COMPLETA DE 6-6 5/8 PULG.",
+  "ABRAZADERA COMPLETA DE 7-7 5/8 PULG.",
+  "ABRAZADERA COMPLETA DE 8-8 5/8 PULG.",
+  "AISLADOR CARRETE PARA SECUNDARIO",
+  "AISLADOR COLUMNA SINTETICO 46KV",
+  "AISLADOR SUSPENSION SINTETICO 23KV",
+  "AISLADOR SUSPENSION SINTETICO 25KV RE",
+  "AISLADOR TENSION 46KV ANSI 54-4",
+  "ALAMBRE ALUM. #4 AMARRE",
+  "ALAMBRE BIMETALICO CU ACERO 2 AWG CCS",
+  "ALAMBRE CU #4 SEMI AISLADO",
+  "ALMOHADILLA PARA CRUCERO",
+  "ARANDELA REDONDA 5/8 PULG.",
+  "ARGOLLA P/2/0 ACSR CAT J1252",
+  "BARRA ANCLA 5/8 X 6 PIES DOBLE OJO",
+  "BARRA COPPERWELD 5/8 X 8 PIES",
+  "BARRA DE POLARIZACION 5/8 X 10 PIES UL DF",
+  "BASE EXPANSION PARA ANCLA",
+  "CABLE ACSR #1/0",
+  "CABLE ACSR #2",
+  "CABLE ALUM. #2 F.P.",
+  "CABLE ALUM. DUPLEX #6 F.P.",
+  "CABLE ALUM. TRIPLEX #6 F.P.",
+  "CABLE ALUM SEMIAISL #1/0 AAAC 25KV CONC",
+  "CABLE COBRE 1/0",
+  "CABLE CU #2 (COBRE)",
+  "CABLE CU #2 F.P.",
+  "CABLE CU #2/0 F.P.",
+  "CABLE CU #4/0",
+  "CABLE GALVANIZADO 5/16 PULG. P/VIENTO",
+  "CABLE SEMIAISLADO HENDRIX #2 AAAC 25KV",
+  "CARTUCHO SOLDADURA EXOTERMICA CADWELD 90 g",
+  "CARTUCHO SOLDADURA EXOTERMICA CADWELD 150 g",
+  "CEPO P/CARCAZA DE TRANSFORMADOR",
+  "CINTA METALICA BAND-IT 3/4 PULG.",
+  "CINTA SCOTCH 33",
+  "CLEVIS DE REMATE 12000 LBS ALUMINIO RE-201",
+  "CLEVIS DE REMATE PEQUEÑO",
+  "CLEVIS ESTRIBO PARA AISLADOR CARRETE",
+  "CONECTOR ARGOLLA CAT J1252",
+  "CONECTOR KSU 23",
+  "CONECTOR KSU 29",
+  "CONECTOR TRANSFORMADOR EQC632C",
+  "CONECTOR YP 25U25",
+  "CONECTOR YP 26AU2",
+  "CONECTOR YP 28U26",
+  "CONECTOR YP 2U3",
+  "CONECTOR YPC 2A8U",
+  "CORTACIRCUITO 100A 23KV",
+  "CORTACIRCUITO 27KV 100A 125KV BIL SIN HERRAJE",
+  "CRUCERO DE 305 PULG. GALV. IMFICA",
+  "CRUCERO GALV. 1/4 X 3 X 3 X 94 PULG.",
+  "CRUCETA P/REMATE P/46KV BD35",
+  "EXTENSION P/CORTACIRCUITO Y PARARRAYO",
+  "FUSIBLE T 2A",
+  "FUSIBLE T 3A",
+  "FUSIBLE TIPO T 15A",
+  "FUSIBLE ALTA TENSION TIPO T 6A 15/35KV TECFUSE",
+  "GRAPA AGP LINEA VIVA #397 MCM",
+  "GRAPA AGP LINEA VIVA #397.5 MCM",
+  "GRAPA POLO A TIERRA",
+  "GRILLETE ANCLAJE 11/16 PULG.",
+  "HEBILLA METALICA BAND-IT 3/4 PULG.",
+  "METRO CINTA BAND-IT 3/4",
+  "PARARRAYO 10KV HEAVY DUTY",
+  "PARARRAYO 21KV HEAVY DUTY",
+  "PARARRAYO SINTETICO 21KV SIN HERRAJE",
+  "PERNO 3/4 X 3 PULG. P/AISLADOR COLUMNA",
+  "PERNO 5/8 X 12 PULG. TODO ROSCA",
+  "PERNO TODO ROSCA 5/8 X 14",
+  "PERNO MAQUINA 1/2 X 1 1/2 PULG.",
+  "PERNO MAQUINA 5/8 X 2 PULG.",
+  "PERNO MAQUINA 5/8 X 10 PULG.",
+  "PERNO MAQUINA 5/8 X 12 PULG.",
+  "PERNO CARRUAJE 1/2 X 4 1/2 PULG.",
+  "PERNO CARRUAJE 1/2 X 6 PULG.",
+  "POSTE CONCRETO 26 PIES",
+  "POSTE CONCRETO 40 PIES CLASE 1,000",
+  "POSTE METALICO SECCIONADO 35 FACTOR 2 D",
+  "POSTE SECCIONADO 26 PIES",
+  "POSTE SECCIONADO 35 PIES",
+  "PREFORMADA ACSR #1/0 AMARILLO DF",
+  "PREFORMADA ACSR #2 ROJO MACLEAN",
+  "PROTECTOR PARA RETENIDA",
+  "REMATE PREFORMADO ACSR #1/0",
+  "REMATE PREFORMADO ACSR #2",
+  "REMATE PREFORMADO 1/0 AWG 25KV CG0119 BLACK",
+  "REMATE PREFORM. ALUM. #2 F.P.",
+  "REMATE PREFORM. P/CABLE GALV. 5/16 PULG.",
+  "REMATE PREFORM. P/CABLE HENDRIX AAAC #2",
+  "SOPORTE ARGOLLA PARA VIENTO",
+  "SOPORTE P/AISLADOR COLUMNA 46KV",
+  "TIRANTE V 45 PULG.",
+  "TIRANTE ANGULAR 1/4 X 3 X 3 X 94 PULG. DERECHO",
+  "TIRANTE ANGULAR 1/4 X 3 X 3 X 94 PULG. IZQUIERDO",
+  "TRANSF. 7.6/13.2KV-120/240V 10KVA",
+  "TRANSF. 7.6/13.2KV-120/240V 25KVA",
+  "TRANSF. 37.5KV 14,000/24,000 120/240V",
+  "TRANSFORMADOR 100KVA 13.2/7.6KV 120/240V",
+  "TRANSFORMADOR 100KVA 14.4/24.9KV 120/240V UL TIPO CAESS EC",
+  "TUBO GALVANIZADO 1/2 PULG. X 3 MTS.",
+  "TUERCA ARGOLLA 5/8 PULG.",
+  "TUERCA ARGOLLA 5/8 PULG. CON CANAL"
+];
+
+
+const tbody=document.getElementById("materiales");
+let datos=[];
+
+listaMateriales.forEach((m,i)=>{
+tbody.innerHTML+=`
+<tr>
+<td class="centro">${i+1}</td>
+<td>${m}</td>
+<td class="centro">
+<select id="und_${i}">
+<option>UNIDAD</option>
+<option>PAA</option>
+<option>ROL</option>
+<option>M</option>
+</select>
+</td>
+<td class="centro">
+<input type="number" min="0" id="cant_${i}">
+</td>
+</tr>`;
+});
+
+/* ===== ACTIVAR COLOREADO ===== */
+listaMateriales.forEach((_,i)=>{
+const input=document.getElementById(`cant_${i}`);
+const fila=input.closest("tr");
+
+input.addEventListener("input",()=>{
+if(input.value && input.value>0){
+fila.classList.add("fila-activa");
+}else{
+fila.classList.remove("fila-activa");
+}
+});
+});
+
+function generarTabla(){
+datos=[];
+document.getElementById("resultado").innerHTML="";
+listaMateriales.forEach((_,i)=>{
+let c=document.getElementById(`cant_${i}`).value;
+let u=document.getElementById(`und_${i}`).value;
+if(c>0) datos.push({index:i,desc:listaMateriales[i],und:u,cant:c});
+});
+renderTabla();
+}
+
+function renderTabla(){
+const r=document.getElementById("resultado");
+r.innerHTML="";
+datos.forEach((d,i)=>{
+r.innerHTML+=`
+<tr>
+<td class="centro">${i+1}</td>
+<td>${d.desc}</td>
+<td class="centro">${d.und}</td>
+<td class="centro">${d.cant}</td>
+<td class="centro">
+<button class="btn-edit" onclick="editar(${i})">Editar</button>
+<button class="btn-danger" onclick="eliminar(${i})">Eliminar</button>
+</td>
+</tr>`;
+});
+}
+
+function eliminar(i){
+const fila=document.getElementById(`cant_${datos[i].index}`).closest("tr");
+fila.classList.remove("fila-activa");
+document.getElementById(`cant_${datos[i].index}`).value="";
+datos.splice(i,1);
+renderTabla();
+}
+
+function editar(i){
+let n=prompt("Nueva cantidad:",datos[i].cant);
+if(n>0){
+datos[i].cant=n;
+document.getElementById(`cant_${datos[i].index}`).value=n;
+}
+}
+
+/* ===== PDF ===== */ 
+function exportarPDF(){ if(!datos.length){alert("Tabla vacía");return;} const titulo=document.getElementById("tituloDoc").value||"LISTADO DE MATERIALES ELÉCTRICOS";
+ const {jsPDF}=window.jspdf; const pdf=new jsPDF("p","mm","letter"); let y=20; const w=pdf.internal.pageSize.getWidth();
+  pdf.setFont("helvetica","bold"); pdf.setFontSize(14); pdf.text(titulo,w/2,y,{align:"center"}); y+=15; 
+ function encabezado(){ pdf.setFontSize(10); pdf.rect(10,y,10,8); pdf.rect(20,y,110,8); pdf.rect(130,y,30,8); 
+    pdf.rect(160,y,30,8); pdf.text("N°",15,y+5,{align:"center"}); 
+  pdf.text("DESCRIPCIÓN",22,y+5); pdf.text("UNIDAD",145,y+5,{align:"center"});
+  pdf.text("CANTIDAD",175,y+5,{align:"center"}); y+=8; pdf.setFont("helvetica","normal"); } encabezado(); datos.forEach((d,i)=>{ if(y>260){pdf.addPage();y=20;encabezado();} 
+  pdf.rect(10,y,10,8); pdf.rect(20,y,110,8); pdf.rect(130,y,30,8); pdf.rect(160,y,30,8); 
+  pdf.text(String(i+1),15,y+5,{align:"center"}); pdf.text(d.desc,22,y+5); pdf.text(d.und,145,y+5,{align:"center"}); pdf.text(String(d.cant),175,y+5,{align:"center"}); y+=8; });
+  pdf.save(titulo.replace(/ /g,"_")+".pdf"); } 
+  
+  /* ===== EXCEL ===== */ function exportarExcel(){ if(!datos.length){alert("Tabla vacía");return;} const titulo=document.getElementById("tituloDoc").value||"LISTADO DE MATERIALES ELÉCTRICOS"; 
+  const hoja=[ [titulo], [], ["N°","DESCRIPCIÓN","UNIDAD","CANTIDAD"], ...datos.map((d,i)=>[i+1,d.desc,d.und,d.cant]) ]; 
+const ws=XLSX.utils.aoa_to_sheet(hoja); ws["!merges"]=[{s:{r:0,c:0},e:{r:0,c:3}}]; const wb=XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb,ws,"Materiales"); 
+XLSX.writeFile(wb,titulo.replace(/ /g,"_")+".xlsx"); }
+</script>
+
+</body>
+</html>
