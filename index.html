@@ -10,7 +10,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
 <style>
-body{font-family:Arial;padding:20px; background:#def6ff}
+body{font-family:Arial;padding:20px; background:#F5FFFA}
 table{width:100%;border-collapse:collapse;margin-top:15px}
 th,td{border:1px solid #000;padding:6px;font-size:13px}
 th{background:#0d4c63;color:#fff}
@@ -36,7 +36,7 @@ input,select{width:80px;text-align:center}
 .titulo-contorno{
     font-size:38px;
     font-weight:900;
-    color: blue;
+    color: white;
     -webkit-text-stroke:2px black;
     text-align:center;
 }
@@ -60,7 +60,7 @@ transition:transform .2s;
 body{padding:10px}
 .header-titulo{flex-direction:column}
 .header-titulo img{height:65px}
-.titulo-contorno{font-size:26px;-webkit-text-stroke:2px white}
+.titulo-contorno{font-size:29px;-webkit-text-stroke:1px black}
 table{display:block;overflow-x:auto;white-space:nowrap}
 }
 </style>
@@ -73,7 +73,7 @@ table{display:block;overflow-x:auto;white-space:nowrap}
     <h1 class="titulo-contorno">LISTA DE MATERIALES ELÉCTRICOS</h1>
 </div>
 
-<label><h2><b>TÍTULO DEL DOCUMENTO</b></h2></label><br> <input type="text" id="tituloDoc" placeholder="Ej: LOURDES PLAZA EL CAPULÍN" style="width:350px;height:25px"><br>
+<label><h3><b>TÍTULO DEL DOCUMENTO</b></h3></label><br> <input type="text" id="tituloDoc" placeholder="Ej: LOURDES PLAZA EL CAPULÍN" style="width:350px;height:25px"><br>
 
 <table>
 <thead>
@@ -319,5 +319,6 @@ XLSX.writeFile(wb,titulo.replace(/ /g,"_")+".xlsx"); }
 
 </body>
 </html>
+
 
 
