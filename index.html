@@ -40,7 +40,23 @@ input,select{width:80px;text-align:center}
     -webkit-text-stroke:2px black;
     text-align:center;
 }
+.campo-titulo{
+    margin-bottom:12px;
+}
 
+.campo-titulo label{
+    display:block;
+    font-weight:bold;
+    margin-bottom:4px; /* 🔥 aquí se acerca */
+    font-size:15px;
+}
+
+.campo-titulo input{
+    width:100%;
+    max-width:380px;
+    padding:10px;
+    font-size:14px;
+}
 .iconos{
 display:flex;
 gap:15px;
@@ -115,8 +131,11 @@ table{display:block;overflow-x:auto;white-space:nowrap}
            onkeyup="filtrarMateriales()">
 </div>
     
-<label><h3><b>TÍTULO DEL DOCUMENTO</b></h3></label><br> <input type="text" id="tituloDoc" placeholder="Ej: LOURDES PLAZA EL CAPULÍN" style="width:350px;height:25px"><br>
-
+<div class="campo-titulo">
+    <label>TÍTULO DEL DOCUMENTO</label>
+    <input type="text" id="tituloDoc" placeholder="Ej: LOURDES PLAZA EL CAPULÍN">
+</div>
+    
 <table>
 <thead>
 <tr>
@@ -384,6 +403,7 @@ XLSX.writeFile(wb,titulo.replace(/ /g,"_")+".xlsx"); }
 
 </body>
 </html>
+
 
 
 
