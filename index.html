@@ -55,6 +55,15 @@ transition:transform .2s;
 }
 .icon-btn:hover{transform:scale(1.1)}
 
+.icon-item{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    font-size:12px;
+    font-weight:bold;
+    color:#0d4c63;
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width:768px){
 body{padding:10px}
@@ -88,9 +97,22 @@ table{display:block;overflow-x:auto;white-space:nowrap}
 </table>
 
 <div class="iconos">
-<img src="generar.png" class="icon-btn" onclick="generarTabla()">
-<img src="pdf.png" class="icon-btn" onclick="exportarPDF()">
-<img src="excel.jpg" class="icon-btn" onclick="exportarExcel()">
+
+<div class="icon-item">
+    <img src="generar.png" class="icon-btn" onclick="generarTabla()">
+    <span>Generar tabla</span>
+</div>
+
+<div class="icon-item">
+    <img src="pdf.png" class="icon-btn" onclick="exportarPDF()">
+    <span>Descargar PDF</span>
+</div>
+
+<div class="icon-item">
+    <img src="excel.jpg" class="icon-btn" onclick="exportarExcel()">
+    <span>Descargar Excel</span>
+</div>
+
 </div>
 
 <table>
@@ -319,6 +341,7 @@ XLSX.writeFile(wb,titulo.replace(/ /g,"_")+".xlsx"); }
 
 </body>
 </html>
+
 
 
 
