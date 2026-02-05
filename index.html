@@ -155,22 +155,172 @@ input,select{
     .header-titulo,
     .buscador-fijo,
     .campo-titulo,
-    .iconos,
-    table{
-        background: rgba(255,255,255,0.75);
-        backdrop-filter: blur(6px);
-    }
+/* ===== RESET BÁSICO ===== */
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
-    #video-fondo{
-          z-index:-2;
-    }
+
+body{
+    font-family: Arial, sans-serif;
+    min-height:100vh;
+    color:#000;
+    position:relative;
+    overflow-x:hidden;
 }
+
+/* ===== VIDEO DE FONDO ===== */
+#video-fondo{
+    position: fixed;
+    inset: 0;
+    width:100%;
+    height:100%;
+    object-fit: cover;
+    z-index:-3;
+}
+
+/* Capa azul elegante sobre el video */
 body::before{
     content:"";
     position:fixed;
     inset:0;
-    background: rgba(10,40,80,0.25); /* azul elegante */
+    background: rgba(10,40,80,0.25);
     z-index:-2;
+}
+
+/* ===== HEADER / TÍTULO ===== */
+.header-titulo{
+    margin:20px auto;
+    padding:25px 15px;
+    max-width:900px;
+    text-align:center;
+
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    border-radius:18px;
+}
+
+.header-titulo img{
+    max-width:90px;
+    margin-bottom:10px;
+}
+
+.header-titulo h1{
+    font-size:28px;
+    font-weight:800;
+}
+
+/* ===== BUSCADOR FIJO ===== */
+.buscador-fijo{
+    position: sticky;
+    top: 10px;
+    z-index: 1000;
+
+    margin:0 auto 20px;
+    max-width:900px;
+
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    padding:12px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    border-radius:14px;
+    border-bottom:2px solid #0d4c63;
+}
+
+.icon-lupa{
+    width:27px;
+    height:27px;
+}
+
+#buscador{
+    flex:1;
+    padding:10px 12px;
+    font-size:15px;
+    border:1px solid #aaa;
+    border-radius:8px;
+    outline:none;
+}
+
+/* ===== CAMPO TÍTULO ===== */
+.campo-titulo{
+    margin:20px auto;
+    padding:15px;
+    max-width:900px;
+
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    border-radius:14px;
+}
+
+.campo-titulo label{
+    font-weight:700;
+    display:block;
+    margin-bottom:6px;
+}
+
+.campo-titulo input{
+    width:100%;
+    padding:10px;
+    font-size:15px;
+    border-radius:8px;
+    border:1px solid #aaa;
+}
+
+/* ===== TABLA ===== */
+table{
+    width:100%;
+    max-width:900px;
+    margin:20px auto;
+    border-collapse:collapse;
+
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+
+    border-radius:14px;
+    overflow:hidden;
+}
+
+th, td{
+    padding:12px;
+    border-bottom:1px solid #ccc;
+    text-align:left;
+}
+
+th{
+    background: rgba(13,76,99,0.15);
+    font-weight:700;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width:768px){
+    .header-titulo{
+        margin:15px 10px;
+    }
+
+    .buscador-fijo{
+        margin:0 10px 15px;
+        top:5px;
+    }
+
+    .campo-titulo,
+    table{
+        margin:15px 10px;
+    }
+
+    .header-titulo h1{
+        font-size:22px;
+    }
 }
     </style>
 </head>
@@ -462,6 +612,7 @@ XLSX.writeFile(wb,titulo.replace(/ /g,"_")+".xlsx"); }
 
 </body>
 </html>
+
 
 
 
