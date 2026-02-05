@@ -132,28 +132,7 @@ input,select{
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     display:flex;
-    align-items:center;
-    gap:10px;
-    border-bottom:2px solid #0d4c63;
-}
-
-.icon-lupa{
-    width:27px;
-    height:27px;
-}
-#buscador{
-    flex:1;
-    padding:8px 10px;
-    font-size:14px;
-    border:1px solid #aaa;
-    border-radius:6px;
-}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width:768px){
-    .header-titulo,
-    .buscador-fijo,
-    .campo-titulo,
+<style>
 /* ===== RESET BÁSICO ===== */
 *{
     box-sizing:border-box;
@@ -167,6 +146,7 @@ body{
     color:#000;
     position:relative;
     overflow-x:hidden;
+    padding:20px;
 }
 
 /* ===== VIDEO DE FONDO ===== */
@@ -179,7 +159,7 @@ body{
     z-index:-3;
 }
 
-/* Capa azul elegante sobre el video */
+/* Capa azul sobre el video */
 body::before{
     content:"";
     position:fixed;
@@ -188,49 +168,58 @@ body::before{
     z-index:-2;
 }
 
-/* ===== HEADER / TÍTULO ===== */
-.header-titulo{
-    margin:20px auto;
-    padding:25px 15px;
-    max-width:900px;
-    text-align:center;
-
+/* ===== CONTENEDORES CON EFECTO VIDRIO ===== */
+.header-titulo,
+.buscador-fijo,
+.campo-titulo,
+.iconos,
+table{
     background: rgba(255,255,255,0.75);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-
     border-radius:18px;
+    border:1px solid rgba(255,255,255,0.35);
+}
+
+/* ===== HEADER / TÍTULO ===== */
+.header-titulo{
+    width:95%;
+    max-width:1100px;
+    margin:20px auto;
+    padding:25px 20px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:20px;
 }
 
 .header-titulo img{
-    max-width:90px;
-    margin-bottom:10px;
+    height:80px;
 }
 
-.header-titulo h1{
-    font-size:28px;
-    font-weight:800;
+.titulo-contorno{
+    font-size:36px;
+    font-weight:900;
+    color:#003b5c;
+    text-align:center;
 }
 
 /* ===== BUSCADOR FIJO ===== */
 .buscador-fijo{
     position: sticky;
-    top: 10px;
+    top: 0;
     z-index: 1000;
 
+    width:95%;
+    max-width:1100px;
     margin:0 auto 20px;
-    max-width:900px;
-
-    background: rgba(255,255,255,0.7);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
 
     padding:12px;
     display:flex;
     align-items:center;
     gap:10px;
 
-    border-radius:14px;
     border-bottom:2px solid #0d4c63;
 }
 
@@ -248,23 +237,19 @@ body::before{
     outline:none;
 }
 
-/* ===== CAMPO TÍTULO ===== */
+/* ===== CAMPO TÍTULO DOCUMENTO ===== */
 .campo-titulo{
+    width:95%;
+    max-width:1100px;
     margin:20px auto;
     padding:15px;
-    max-width:900px;
-
-    background: rgba(255,255,255,0.75);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-
-    border-radius:14px;
 }
 
 .campo-titulo label{
-    font-weight:700;
     display:block;
+    font-weight:700;
     margin-bottom:6px;
+    font-size:15px;
 }
 
 .campo-titulo input{
@@ -277,51 +262,95 @@ body::before{
 
 /* ===== TABLA ===== */
 table{
-    width:100%;
-    max-width:900px;
+    width:95%;
+    max-width:1100px;
     margin:20px auto;
     border-collapse:collapse;
-
-    background: rgba(255,255,255,0.75);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-
-    border-radius:14px;
     overflow:hidden;
 }
 
 th, td{
     padding:12px;
-    border-bottom:1px solid #ccc;
-    text-align:left;
+    border:1px solid #000;
+    font-size:13px;
 }
 
+/* 🔵 ENCABEZADOS AZUL OSCURO SÓLIDO */
 th{
-    background: rgba(13,76,99,0.15);
+    background-color:#0d4c63;
+    color:white;
     font-weight:700;
+    text-align:center;
+}
+
+/* ===== INPUTS TABLA ===== */
+input, select{
+    width:80px;
+    text-align:center;
+}
+
+/* ===== BOTONES ===== */
+.btn-danger{
+    background:#b30000;
+    color:#fff;
+    padding:5px;
+}
+
+.btn-edit{
+    background:#d18b00;
+    color:#fff;
+    padding:5px;
+}
+
+/* ===== FILA ACTIVA ===== */
+.fila-activa td{
+    background-color: yellow !important;
+}
+
+/* ===== ICONOS ===== */
+.iconos{
+    width:95%;
+    max-width:1100px;
+    margin:20px auto;
+    padding:15px;
+
+    display:flex;
+    gap:15px;
+    align-items:center;
+    flex-wrap:wrap;
+}
+
+.icon-btn{
+    width:60px;
+    cursor:pointer;
+    transition:transform .2s;
+}
+
+.icon-btn:hover{
+    transform:scale(1.1);
+}
+
+.icon-item{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    font-size:12px;
+    font-weight:bold;
+    color:#0d4c63;
 }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width:768px){
+    .titulo-contorno{
+        font-size:24px;
+    }
+
     .header-titulo{
-        margin:15px 10px;
-    }
-
-    .buscador-fijo{
-        margin:0 10px 15px;
-        top:5px;
-    }
-
-    .campo-titulo,
-    table{
-        margin:15px 10px;
-    }
-
-    .header-titulo h1{
-        font-size:22px;
+        flex-direction:column;
+        text-align:center;
     }
 }
-    </style>
+</style>
 </head>
 
 <body>
@@ -611,6 +640,7 @@ XLSX.writeFile(wb,titulo.replace(/ /g,"_")+".xlsx"); }
 
 </body>
 </html>
+
 
 
 
