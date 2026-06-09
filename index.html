@@ -455,31 +455,65 @@ function filtrarMateriales(){
 }
 
 function generarTabla(){
-datos=[];
-document.getElementById("resultado").innerHTML="";
+
 listaMateriales.forEach((_,i)=>{
+
 let c=document.getElementById(`cant_${i}`).value;
 let u=document.getElementById(`und_${i}`).value;
-if(c>0) datos.push({index:i,desc:listaMateriales[i],und:u,cant:c});
+
+if(c>0){
+
+let existente = datos.find(x => x.index === i);
+
+if(!existente){
+
+datos.push({
+index:i,
+desc:listaMateriales[i],
+und:u,
+cant:c
 });
+
+}
+
+}
+
+});
+
 renderTabla();
 }
 
 function renderTabla(){
 const r=document.getElementById("resultado");
 r.innerHTML="";
+
 datos.forEach((d,i)=>{
+
+if(d.editando){
 r.innerHTML+=`
 <tr>
-<td class="centro">${i+1}</td>
+<td>${i+1}</td>
+<td><input type="text" id="edit_desc_${i}" value="${d.desc}" style="width:100%"></td>
+<td><input type="text" id="edit_und_${i}" value="${d.und}" style="width:100%"></td>
+<td><input type="number" id="edit_cant_${i}" value="${d.cant}" style="width:100%"></td>
+<td>
+<button class="btn-edit" onclick="guardarEdicion(${i})">Guardar</button>
+<button class="btn-danger" onclick="cancelarEdicion(${i})">Cancelar</button>
+</td>
+</tr>`;
+}else{
+r.innerHTML+=`
+<tr>
+<td>${i+1}</td>
 <td>${d.desc}</td>
-<td class="centro">${d.und}</td>
-<td class="centro">${d.cant}</td>
-<td class="centro">
+<td>${d.und}</td>
+<td>${d.cant}</td>
+<td>
 <button class="btn-edit" onclick="editar(${i})">Editar</button>
 <button class="btn-danger" onclick="eliminar(${i})">Eliminar</button>
 </td>
 </tr>`;
+}
 });
 }
 
@@ -487,16 +521,36 @@ function eliminar(i){
 const fila=document.getElementById(`cant_${datos[i].index}`).closest("tr");
 fila.classList.remove("fila-activa");
 document.getElementById(`cant_${datos[i].index}`).value="";
+document.getElementById(`und_${datos[i].index}`).selectedIndex = 0;
 datos.splice(i,1);
 renderTabla();
 }
 
 function editar(i){
-let n=prompt("Nueva cantidad:",datos[i].cant);
-if(n>0){
-datos[i].cant=n;
-document.getElementById(`cant_${datos[i].index}`).value=n;
+datos[i].editando=true;
+renderTabla();
 }
+
+function guardarEdicion(i){
+
+datos[i].desc=document.getElementById(`edit_desc_${i}`).value;
+datos[i].und=document.getElementById(`edit_und_${i}`).value;
+datos[i].cant=document.getElementById(`edit_cant_${i}`).value;
+
+listaMateriales[datos[i].index]=datos[i].desc;
+
+/* ACTUALIZAR TAMBIÉN LOS CAMPOS SUPERIORES */
+document.getElementById(`und_${datos[i].index}`).value = datos[i].und;
+document.getElementById(`cant_${datos[i].index}`).value = datos[i].cant;
+
+datos[i].editando=false;
+
+renderTabla();
+}
+
+function cancelarEdicion(i){
+datos[i].editando=false;
+renderTabla();
 }
 
 /* ===== PDF ===== */ 
